@@ -38,7 +38,7 @@
                         }
                     }
                 } else {
-                    print "<option>Não há marcas cadastradas</option>";
+                    print "<option>Não há clientes cadastrados</option>";
                 }
             ?>
            </select>
@@ -61,7 +61,7 @@
                         }
                     }
                 } else {
-                    print "<option>Não há marcas cadastradas</option>";
+                    print "<option>Não há funcionários cadastrados</option>";
                 }
             ?>
            </select>
@@ -84,7 +84,7 @@
                         }
                     }
                 } else {
-                    print "<option>Não há marcas cadastradas</option>";
+                    print "<option>Não há modelos cadastrados</option>";
                 }
             ?>
            </select>

@@ -25,7 +25,7 @@
                                 " . e($row->nome_cliente) . "</option>";
                         }
                     } else {
-                        print "<option>Não há marcas cadastradas</option>";
+                        print "<option>Não há clientes cadastrados</option>";
                     }
                 ?>
             </select>
@@ -45,7 +45,7 @@
                                 " . e($row->nome_funcionario) . "</option>";
                         }
                     } else {
-                        print "<option>Não há marcas cadastradas</option>";
+                        print "<option>Não há funcionários cadastrados</option>";
                     }
                 ?>
             </select>
@@ -65,7 +65,7 @@
                                 " . e($row->nome_modelo) . "</option>";
                         }
                     } else {
-                        print "<option>Não há marcas cadastradas</option>";
+                        print "<option>Não há modelos cadastrados</option>";
                     }
                 ?>
             </select>
