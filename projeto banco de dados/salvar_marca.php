@@ -1,12 +1,13 @@
 <?php
-    switch ($_REQUEST['acao']) {
-        case 'cadastrar':
-            $nome = $_POST['nome_marca'];
-        
-            $sql = "INSERT INTO marca (nome_marca)
-            VALUES ('{$nome}')";
+    // Todas as consultas usam prepared statements: os valores digitados nunca
+    // entram no texto do SQL, então aspas e comandos não podem alterar a consulta.
+    $id = (int) ($_REQUEST['id_marca'] ?? 0);
 
-            $res = $conn->query($sql);
+    switch ($_REQUEST['acao'] ?? '') {
+        case 'cadastrar':
+            $stmt = $conn->prepare("INSERT INTO marca (nome_marca) VALUES (?)");
+            $stmt->bind_param('s', $_POST['nome_marca']);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Cadastrado com sucesso!');</script>";
@@ -18,11 +19,9 @@
             break;
 
         case 'editar':
-            $nome = $_POST['nome_marca'];
-
-            $sql = "UPDATE marca SET nome_marca='{$nome}' WHERE id_marca =".$_REQUEST['id_marca'];
-
-            $res = $conn->query($sql);
+            $stmt = $conn->prepare("UPDATE marca SET nome_marca=? WHERE id_marca=?");
+            $stmt->bind_param('si', $_POST['nome_marca'], $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Editou com sucesso!');</script>";
@@ -34,9 +33,9 @@
             break;
 
         case 'excluir':
-            $sql = "DELETE FROM marca WHERE id_marca=".$_REQUEST['id_marca'];
-
-            $res = $conn->query($sql);
+            $stmt = $conn->prepare("DELETE FROM marca WHERE id_marca=?");
+            $stmt->bind_param('i', $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
