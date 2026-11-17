@@ -35,9 +35,12 @@
         case 'excluir':
             $stmt = $conn->prepare("DELETE FROM marca WHERE id_marca=?");
             $stmt->bind_param('i', $id);
-            $res = $stmt->execute();
+            $erro = executar($stmt);
 
-            if ($res == true) {
+            if ($erro == 1451) { // registro ainda referenciado por chave estrangeira
+                print "<script>alert('Não é possível excluir: há modelos desta marca cadastrados.');</script>";
+                print "<script>location.href='?page=listar_marca';</script>";
+            } elseif ($erro == 0) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
                 print "<script>location.href='?page=listar_marca';</script>";
             } else {

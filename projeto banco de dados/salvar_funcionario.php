@@ -35,9 +35,12 @@
         case 'excluir':
             $stmt = $conn->prepare("DELETE FROM funcionario WHERE id_funcionario=?");
             $stmt->bind_param('i', $id);
-            $res = $stmt->execute();
+            $erro = executar($stmt);
 
-            if ($res == true) {
+            if ($erro == 1451) { // registro ainda referenciado por chave estrangeira
+                print "<script>alert('Não é possível excluir: este funcionário tem vendas registradas.');</script>";
+                print "<script>location.href='?page=listar_funcionario';</script>";
+            } elseif ($erro == 0) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
                 print "<script>location.href='?page=listar_funcionario';</script>";
             } else {

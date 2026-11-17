@@ -39,9 +39,12 @@
         case 'excluir':
             $stmt = $conn->prepare("DELETE FROM cliente WHERE id_cliente=?");
             $stmt->bind_param('i', $id);
-            $res = $stmt->execute();
+            $erro = executar($stmt);
 
-            if ($res == true) {
+            if ($erro == 1451) { // registro ainda referenciado por chave estrangeira
+                print "<script>alert('Não é possível excluir: este cliente tem vendas registradas.');</script>";
+                print "<script>location.href='?page=listar_cliente';</script>";
+            } elseif ($erro == 0) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
                 print "<script>location.href='?page=listar_cliente';</script>";
             } else {
