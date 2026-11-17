@@ -1,16 +1,13 @@
 <?php
-    switch ($_REQUEST['acao']) {
-        case 'cadastrar':
-            $data = $_POST['data_venda'];
-            $valor = $_POST['valor_venda'];
-            $cliente = $_POST['cliente_id_cliente'];
-            $funcionario = $_POST['funcionario_id_funcionario'];
-            $modelo = $_POST['modelo_id_modelo'];
-        
-            $sql = "INSERT INTO venda (data_venda, valor_venda, cliente_id_cliente, funcionario_id_funcionario, modelo_id_modelo)
-            VALUES ('{$data}', '{$valor}', '{$cliente}', '{$funcionario}', '{$modelo}')";
+    // Todas as consultas usam prepared statements: os valores digitados nunca
+    // entram no texto do SQL, então aspas e comandos não podem alterar a consulta.
+    $id = (int) ($_REQUEST['id_venda'] ?? 0);
 
-            $res = $conn->query($sql);
+    switch ($_REQUEST['acao'] ?? '') {
+        case 'cadastrar':
+            $stmt = $conn->prepare("INSERT INTO venda (data_venda, valor_venda, cliente_id_cliente, funcionario_id_funcionario, modelo_id_modelo) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param('sdiii', $_POST['data_venda'], $_POST['valor_venda'], $_POST['cliente_id_cliente'], $_POST['funcionario_id_funcionario'], $_POST['modelo_id_modelo']);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Cadastrado com sucesso!');</script>";
@@ -22,15 +19,9 @@
             break;
 
         case 'editar':
-            $data = $_POST['data_venda'];
-            $valor = $_POST['valor_venda'];
-            $cliente = $_POST['cliente_id_cliente'];
-            $funcionario = $_POST['funcionario_id_funcionario'];
-            $modelo = $_POST['modelo_id_modelo'];
-
-            $sql = "UPDATE venda SET data_venda='{$data}', valor_venda='{$valor}', cliente_id_cliente='{$cliente}', funcionario_id_funcionario='{$funcionario}', modelo_id_modelo={$modelo} WHERE id_venda=".$_REQUEST['id_venda'];
-
-            $res = $conn->query($sql);
+            $stmt = $conn->prepare("UPDATE venda SET data_venda=?, valor_venda=?, cliente_id_cliente=?, funcionario_id_funcionario=?, modelo_id_modelo=? WHERE id_venda=?");
+            $stmt->bind_param('sdiiii', $_POST['data_venda'], $_POST['valor_venda'], $_POST['cliente_id_cliente'], $_POST['funcionario_id_funcionario'], $_POST['modelo_id_modelo'], $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Editou com sucesso!');</script>";
@@ -42,9 +33,9 @@
             break;
 
         case 'excluir':
-            $sql = "DELETE FROM venda WHERE id_venda=".$_REQUEST['id_venda'];
-
-            $res = $conn->query($sql);
+            $stmt = $conn->prepare("DELETE FROM venda WHERE id_venda=?");
+            $stmt->bind_param('i', $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
