@@ -30,7 +30,7 @@
                 $qtd_1 = $res_1->num_rows;
                 if($qtd_1 > 0) {
                     while($row_1 = $res_1->fetch_object()) {
-                        if($row->cliente_id_cliente == $row_1->id_marca) {
+                        if($row->cliente_id_cliente == $row_1->id_cliente) {
                             print "<option value='" . e($row_1->id_cliente) . "' selected>
                                 " . e($row_1->nome_cliente) . "</option>";
                         } else {
