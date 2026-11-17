@@ -1,14 +1,14 @@
 <?php
-    switch ($_REQUEST['acao']) {
-        case 'cadastrar':
-            $nome = $_POST['nome_funcionario'];
-            $email = $_POST['email_funcionario'];
-            $telefone = $_POST['telefone_funcionario'];
-        
-            $sql = "INSERT INTO funcionario (nome_funcionario, email_funcionario, telefone_funcionario)
-            VALUES ('{$nome}', '{$email}', '{$telefone}')";
+    // Todas as consultas usam prepared statements: os valores digitados nunca
+    // entram no texto do SQL, então aspas e comandos não podem alterar a consulta.
+    $id = (int) ($_REQUEST['id_funcionario'] ?? 0);
 
-            $res = $conn->query($sql);
+    switch ($_REQUEST['acao'] ?? '') {
+        case 'cadastrar':
+            $stmt = $conn->prepare("INSERT INTO funcionario (nome_funcionario, email_funcionario, telefone_funcionario) VALUES (?, ?, ?)");
+            $stmt->bind_param('sss', $_POST['nome_funcionario'], $_POST['email_funcionario'], $_POST['telefone_funcionario']);
+            $res = $stmt->execute();
+
             if ($res == true) {
                 print "<script>alert('Cadastrado com sucesso!');</script>";
                 print "<script>location.href='?page=listar_funcionario';</script>";
@@ -19,13 +19,9 @@
             break;
 
         case 'editar':
-            $nome = $_POST['nome_funcionario'];
-            $email = $_POST['email_funcionario'];
-            $telefone = $_POST['telefone_funcionario'];
-
-            $sql = "UPDATE funcionario SET nome_funcionario='{$nome}', email_funcionario='{$email}', telefone_funcionario='{$telefone}' WHERE id_funcionario =".$_REQUEST['id_funcionario'];
-
-            $res = $conn->query($sql);
+            $stmt = $conn->prepare("UPDATE funcionario SET nome_funcionario=?, email_funcionario=?, telefone_funcionario=? WHERE id_funcionario=?");
+            $stmt->bind_param('sssi', $_POST['nome_funcionario'], $_POST['email_funcionario'], $_POST['telefone_funcionario'], $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Editou com sucesso!');</script>";
@@ -35,11 +31,11 @@
                 print "<script>location.href='?page=listar_funcionario';</script>";
             }
             break;
-            
-        case 'excluir':
-            $sql = "DELETE FROM funcionario WHERE id_funcionario=".$_REQUEST['id_funcionario'];
 
-            $res = $conn->query($sql);
+        case 'excluir':
+            $stmt = $conn->prepare("DELETE FROM funcionario WHERE id_funcionario=?");
+            $stmt->bind_param('i', $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
