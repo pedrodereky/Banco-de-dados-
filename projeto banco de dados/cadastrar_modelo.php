@@ -11,8 +11,8 @@
                     $qtd = $res->num_rows;
                     if($qtd > 0) {
                         while($row = $res->fetch_object()) {
-                            print "<option value='{$row->id_marca}'>
-                                {$row->nome_marca}</option>";
+                            print "<option value='" . e($row->id_marca) . "'>
+                                " . e($row->nome_marca) . "</option>";
                         }
                     } else {
                         print "<option>Não há marcas cadastradas</option>";

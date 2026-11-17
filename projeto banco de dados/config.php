@@ -8,3 +8,9 @@
     define('BASE', getenv('DB_NAME') ?: 'concessionaria6162');
 
     $conn = new mysqli(HOST,USER,PASS,BASE);
+
+    // Escapa um valor antes de colocá-lo no HTML. Sem isso, um nome como
+    // <script>...</script> salvo no banco vira código executado na página.
+    function e($valor) {
+        return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
+    }

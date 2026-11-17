@@ -10,15 +10,15 @@
 
 <form action="?page=salvar_venda" method='POST'>
     <input type="hidden" name="acao" value="editar">
-    <input type="hidden" name="id_venda" value="<?php print $row->id_venda; ?>">
+    <input type="hidden" name="id_venda" value="<?php print e($row->id_venda); ?>">
     <div class="mb-3">
         <label>Data
-            <input type="text" name="data_venda" class="form-control" value="<?php print $row->data_venda; ?>">
+            <input type="text" name="data_venda" class="form-control" value="<?php print e($row->data_venda); ?>">
         </label>
     </div>
     <div class="mb-3">
         <label>Valor
-            <input type="text" name="valor_venda" class="form-control" value="<?php print $row->valor_venda; ?>">
+            <input type="text" name="valor_venda" class="form-control" value="<?php print e($row->valor_venda); ?>">
         </label>
     </div>
     <div class="mb-3">
@@ -31,10 +31,10 @@
                 if($qtd_1 > 0) {
                     while($row_1 = $res_1->fetch_object()) {
                         if($row->cliente_id_cliente == $row_1->id_marca) {
-                            print "<option value='{$row_1->id_cliente}' selected>
-                                {$row_1->nome_cliente}</option>";
+                            print "<option value='" . e($row_1->id_cliente) . "' selected>
+                                " . e($row_1->nome_cliente) . "</option>";
                         } else {
-                            print "<option value='{$row_1->id_cliente}'>{$row_1->nome_cliente}</option>";
+                            print "<option value='" . e($row_1->id_cliente) . "'>" . e($row_1->nome_cliente) . "</option>";
                         }
                     }
                 } else {
@@ -54,10 +54,10 @@
                 if($qtd_1 > 0) {
                     while($row_1 = $res_1->fetch_object()) {
                         if($row->funcionario_id_funcionario == $row_1->id_funcionario) {
-                            print "<option value='{$row_1->id_funcionario}' selected>
-                                {$row_1->nome_funcionario}</option>";
+                            print "<option value='" . e($row_1->id_funcionario) . "' selected>
+                                " . e($row_1->nome_funcionario) . "</option>";
                         } else {
-                            print "<option value='{$row_1->id_funcionario}'>{$row_1->nome_funcionario}</option>";
+                            print "<option value='" . e($row_1->id_funcionario) . "'>" . e($row_1->nome_funcionario) . "</option>";
                         }
                     }
                 } else {
@@ -77,10 +77,10 @@
                 if($qtd_1 > 0) {
                     while($row_1 = $res_1->fetch_object()) {
                         if($row->modelo_id_modelo == $row_1->id_modelo) {
-                            print "<option value='{$row_1->id_modelo}' selected>
-                                {$row_1->nome_modelo}</option>";
+                            print "<option value='" . e($row_1->id_modelo) . "' selected>
+                                " . e($row_1->nome_modelo) . "</option>";
                         } else {
-                            print "<option value='{$row_1->id_modelo}'>{$row_1->nome_modelo}</option>";
+                            print "<option value='" . e($row_1->id_modelo) . "'>" . e($row_1->nome_modelo) . "</option>";
                         }
                     }
                 } else {
