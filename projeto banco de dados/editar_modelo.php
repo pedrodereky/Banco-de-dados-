@@ -46,7 +46,7 @@
     </div>
     <div class="mb-3">
         <label>Ano
-            <input type="text" name="ano_modelo" class="form-control" class="form-control" value="<?php print e($row->ano_modelo); ?>">
+            <input type="number" min="1900" max="2100" name="ano_modelo" class="form-control" class="form-control" value="<?php print e($row->ano_modelo); ?>">
         </label>
     </div>
     <div class="mb-3">
