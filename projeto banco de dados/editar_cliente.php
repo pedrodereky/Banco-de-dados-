@@ -1,10 +1,11 @@
 <H1>EDITAR CLIENTE</H1>
 <?php
-    $sql = "SELECT * FROM cliente WHERE id_cliente=".$_REQUEST['id_cliente'];
+    $stmt = $conn->prepare("SELECT * FROM cliente WHERE id_cliente=?");
+    $id = (int) ($_REQUEST['id_cliente'] ?? 0);
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
 
-    $res = $conn->query($sql);
-
-    $row = $res->fetch_object();
+    $row = $stmt->get_result()->fetch_object();
 ?>
 
 <form action="?page=salvar_cliente" method='POST'>

@@ -1,17 +1,15 @@
 <?php
-    switch ($_REQUEST['acao']) {
-        case 'cadastrar':
-            $nome = $_POST['nome_cliente'];
-            $cpf = $_POST['cpf_cliente'];
-            $email = $_POST['email_cliente'];
-            $telefone = $_POST['telefone_cliente'];
-            $endereco = $_POST['endereco_cliente'];
-            $data_nasc = $_POST['data_nasc_cliente'];
-        
-            $sql = "INSERT INTO cliente (nome_cliente, cpf_cliente, email_cliente, telefone_cliente, endereco_cliente, dt_nasc_cliente)
-            VALUES ('{$nome}', '{$cpf}', '{$email}', '{$telefone}', '{$endereco}', '{$data_nasc}')";
+    // Todas as consultas usam prepared statements: os valores digitados nunca
+    // entram no texto do SQL, então aspas e comandos não podem alterar a consulta.
+    $id = (int) ($_REQUEST['id_cliente'] ?? 0);
 
-            $res = $conn->query($sql);
+    switch ($_REQUEST['acao'] ?? '') {
+        case 'cadastrar':
+            $stmt = $conn->prepare("INSERT INTO cliente (nome_cliente, cpf_cliente, email_cliente, telefone_cliente, endereco_cliente, dt_nasc_cliente)
+            VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param('ssssss', $_POST['nome_cliente'], $_POST['cpf_cliente'], $_POST['email_cliente'],
+                $_POST['telefone_cliente'], $_POST['endereco_cliente'], $_POST['data_nasc_cliente']);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Cadastrado com sucesso!');</script>";
@@ -23,16 +21,11 @@
             break;
 
         case 'editar':
-            $nome = $_POST['nome_cliente'];
-            $cpf = $_POST['cpf_cliente'];
-            $email = $_POST['email_cliente'];
-            $telefone = $_POST['telefone_cliente'];
-            $endereco = $_POST['endereco_cliente'];
-            $data_nasc = $_POST['data_nasc_cliente'];
-
-            $sql = "UPDATE cliente SET nome_cliente='{$nome}', cpf_cliente='{$cpf}', email_cliente='{$email}', telefone_cliente='{$telefone}', endereco_cliente={$endereco}, dt_nasc_cliente={$data_nasc} WHERE id_cliente=".$_REQUEST['id_cliente'];
-
-            $res = $conn->query($sql);
+            // Antes, endereço e data entravam sem aspas no UPDATE, e toda edição falhava.
+            $stmt = $conn->prepare("UPDATE cliente SET nome_cliente=?, cpf_cliente=?, email_cliente=?, telefone_cliente=?, endereco_cliente=?, dt_nasc_cliente=? WHERE id_cliente=?");
+            $stmt->bind_param('ssssssi', $_POST['nome_cliente'], $_POST['cpf_cliente'], $_POST['email_cliente'],
+                $_POST['telefone_cliente'], $_POST['endereco_cliente'], $_POST['data_nasc_cliente'], $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Editou com sucesso!');</script>";
@@ -44,9 +37,9 @@
             break;
 
         case 'excluir':
-            $sql = "DELETE FROM cliente WHERE id_cliente=".$_REQUEST['id_cliente'];
-
-            $res = $conn->query($sql);
+            $stmt = $conn->prepare("DELETE FROM cliente WHERE id_cliente=?");
+            $stmt->bind_param('i', $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
