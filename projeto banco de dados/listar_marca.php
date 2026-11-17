@@ -20,7 +20,7 @@
             print "<td>
                     <button class='btn btn-success' onclick=\"location.href='?page=editar_marca&id_marca=" . e($row->id_marca) . "';\">Editar</button>
 
-                    <button class='btn btn-danger' onclick=\"if (confirm('Tem certeza que deseja excluir?')){location.href='?page=salvar_marca&acao=excluir&id_marca" . e($row->id_marca) . "';} else{false;}\">Excluir</button>
+                    <button class='btn btn-danger' onclick=\"if (confirm('Tem certeza que deseja excluir?')){location.href='?page=salvar_marca&acao=excluir&id_marca=" . e($row->id_marca) . "';} else{false;}\">Excluir</button>
                    </td>";
             print "</tr>";
         }
