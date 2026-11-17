@@ -1,10 +1,11 @@
 <H1>EDITAR MODELO</H1>
 <?php
-    $sql = "SELECT * FROM modelo WHERE id_modelo=".$_REQUEST['id_modelo'];
+    $stmt = $conn->prepare("SELECT * FROM modelo WHERE id_modelo=?");
+    $id = (int) ($_REQUEST['id_modelo'] ?? 0);
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
 
-    $res = $conn->query($sql);
-
-    $row = $res->fetch_object();
+    $row = $stmt->get_result()->fetch_object();
 ?>
 
 <form action="?page=salvar_modelo" method='POST'>
