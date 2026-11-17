@@ -17,12 +17,12 @@
     </div>
     <div class="mb-3">
         <label for="">E-mail
-            <input type="text" name="email_funcionario" class="form-control" class="form-control" value="<?php print e($row->email_funcionario); ?>">
+            <input type="email" name="email_funcionario" class="form-control" class="form-control" value="<?php print e($row->email_funcionario); ?>">
         </label>
     </div>
     <div class="mb-3">
         <label for="">Telefone
-            <input type="text" name="telefone_funcionario" class="form-control" class="form-control" value="<?php print e($row->telefone_funcionario); ?>">
+            <input type="tel" maxlength="20" name="telefone_funcionario" class="form-control" class="form-control" value="<?php print e($row->telefone_funcionario); ?>">
         </label>
     </div>
     

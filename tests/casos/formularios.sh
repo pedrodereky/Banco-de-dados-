@@ -11,3 +11,7 @@ checa_html "valor da venda aceita centavos" "$html_venda" 'step="0.01"'
 enviar salvar_cliente acao=cadastrar nome_cliente="Zero à esquerda" cpf_cliente=01234567890 email_cliente=z@exemplo.com \
   telefone_cliente="(61) 99999-0000" endereco_cliente=x data_nasc_cliente=2000-01-01
 confere "CPF começando com zero é salvo inteiro" "SELECT cpf_cliente FROM cliente WHERE nome_cliente='Zero à esquerda'" "01234567890"
+
+# Edição usa os mesmos tipos do cadastro.
+checa_html "edição de cliente usa campo de data" "$(curl -sS "$BASE?page=editar_cliente&id_cliente=1")" 'type="date" name="data_nasc_cliente"'
+checa_html "edição de venda aceita centavos" "$(curl -sS "$BASE?page=editar_venda&id_venda=1")" 'step="0.01"'

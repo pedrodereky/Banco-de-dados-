@@ -13,12 +13,12 @@
     <input type="hidden" name="id_venda" value="<?php print e($row->id_venda); ?>">
     <div class="mb-3">
         <label>Data
-            <input type="text" name="data_venda" class="form-control" value="<?php print e($row->data_venda); ?>">
+            <input type="date" name="data_venda" class="form-control" value="<?php print e($row->data_venda); ?>">
         </label>
     </div>
     <div class="mb-3">
         <label>Valor
-            <input type="text" name="valor_venda" class="form-control" value="<?php print e($row->valor_venda); ?>">
+            <input type="number" step="0.01" min="0" name="valor_venda" class="form-control" value="<?php print e($row->valor_venda); ?>">
         </label>
     </div>
     <div class="mb-3">
