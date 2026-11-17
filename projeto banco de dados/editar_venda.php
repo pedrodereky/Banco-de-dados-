@@ -1,10 +1,11 @@
 <h1>EDITAR VENDA</h1>
 <?php
-    $sql = "SELECT * FROM venda WHERE id_venda=".$_REQUEST['id_venda'];
+    $stmt = $conn->prepare("SELECT * FROM venda WHERE id_venda=?");
+    $id = (int) ($_REQUEST['id_venda'] ?? 0);
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
 
-    $res = $conn->query($sql);
-
-    $row = $res->fetch_object();
+    $row = $stmt->get_result()->fetch_object();
 ?>
 
 <form action="?page=salvar_venda" method='POST'>
