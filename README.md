@@ -46,6 +46,8 @@ A conexão usa `localhost:3306`, usuário `root` e senha vazia, o padrão do XAM
 
 - Todas as consultas usam **prepared statements**, sem SQL injection.
 - Todo valor vindo do banco passa por `htmlspecialchars` antes de ir para a página, sem XSS.
+- Exclusão só por formulário `POST` com confirmação; um link `GET` não apaga nada.
+- Excluir algo que ainda tem vínculos (marca com modelos, cliente com vendas…) mostra um aviso, e o registro continua no banco.
 
 ## Testes
 
