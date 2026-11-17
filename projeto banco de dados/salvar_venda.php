@@ -33,6 +33,13 @@
             break;
 
         case 'excluir':
+            // Exclusão só por POST: um link GET pode ser aberto por engano,
+            // pré-carregado pelo navegador ou embutido em outra página.
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                print "<script>alert('Use o botão Excluir da listagem.');</script>";
+                print "<script>location.href='?page=listar_venda';</script>";
+                break;
+            }
             $stmt = $conn->prepare("DELETE FROM venda WHERE id_venda=?");
             $stmt->bind_param('i', $id);
             $erro = executar($stmt);

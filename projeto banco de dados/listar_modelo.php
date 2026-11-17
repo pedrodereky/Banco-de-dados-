@@ -29,7 +29,7 @@
                 print "<td>
                         <button class='btn btn-success' onclick=\"location.href='?page=editar_modelo&id_modelo=" . e($row->id_modelo) . "';\">Editar</button>
 
-                        <button class='btn btn-danger' onclick=\"if(confirm('Tem certeza que deseja excluir?')){location.href='?page=salvar_modelo&acao=excluir&id_modelo=" . e($row->id_modelo) . "';} else{false;}\">Excluir</button>
+                        <form method='post' action='?page=salvar_modelo' style='display:inline' onsubmit=\"return confirm('Tem certeza que deseja excluir?');\"><input type='hidden' name='acao' value='excluir'><input type='hidden' name='id_modelo' value='" . e($row->id_modelo) . "'><button type='submit' class='btn btn-danger'>Excluir</button></form>
                     </td>";
                 print "</tr>";
         }

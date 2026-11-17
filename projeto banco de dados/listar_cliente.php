@@ -31,7 +31,7 @@
                 print "<td>
                         <button class='btn btn-success' onclick=\"location.href='?page=editar_cliente&id_cliente=" . e($row->id_cliente) . "';\">Editar</button>
 
-                        <button class='btn btn-danger' onclick=\"if(confirm('Tem certeza que deseja excluir?')){location.href='?page=salvar_cliente&acao=excluir&id_cliente=" . e($row->id_cliente) . "';} else{false;}\">Excluir</button>
+                        <form method='post' action='?page=salvar_cliente' style='display:inline' onsubmit=\"return confirm('Tem certeza que deseja excluir?');\"><input type='hidden' name='acao' value='excluir'><input type='hidden' name='id_cliente' value='" . e($row->id_cliente) . "'><button type='submit' class='btn btn-danger'>Excluir</button></form>
                     </td>";
                 print "</tr>";
         }
