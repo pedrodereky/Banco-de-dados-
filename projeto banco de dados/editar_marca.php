@@ -1,10 +1,11 @@
 <H1>EDITAR MARCA</H1>
 <?php
-    $sql = "SELECT * FROM marca WHERE id_marca=".$_REQUEST['id_marca'];
+    $stmt = $conn->prepare("SELECT * FROM marca WHERE id_marca=?");
+    $id = (int) ($_REQUEST['id_marca'] ?? 0);
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
 
-    $res = $conn->query($sql);
-
-    $row = $res->fetch_object();
+    $row = $stmt->get_result()->fetch_object();
 ?>
 
 <form action="?page=salvar_marca" method='POST'>
