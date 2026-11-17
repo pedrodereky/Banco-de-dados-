@@ -1,16 +1,13 @@
 <?php
-    switch ($_REQUEST['acao']) {
-        case 'cadastrar':
-            $nome = $_POST['nome_modelo'];
-            $cor = $_POST['cor_modelo'];
-            $ano = $_POST['ano_modelo'];
-            $tipo = $_POST['tipo_modelo'];
-            $marca = $_POST['marca_id_marca'];
-        
-            $sql = "INSERT INTO modelo (nome_modelo, cor_modelo, ano_modelo, tipo_modelo, marca_id_marca)
-            VALUES ('{$nome}', '{$cor}', '{$ano}', '{$tipo}', '{$marca}')";
+    // Todas as consultas usam prepared statements: os valores digitados nunca
+    // entram no texto do SQL, então aspas e comandos não podem alterar a consulta.
+    $id = (int) ($_REQUEST['id_modelo'] ?? 0);
 
-            $res = $conn->query($sql);
+    switch ($_REQUEST['acao'] ?? '') {
+        case 'cadastrar':
+            $stmt = $conn->prepare("INSERT INTO modelo (nome_modelo, cor_modelo, ano_modelo, tipo_modelo, marca_id_marca) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param('ssssi', $_POST['nome_modelo'], $_POST['cor_modelo'], $_POST['ano_modelo'], $_POST['tipo_modelo'], $_POST['marca_id_marca']);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Cadastrado com sucesso!');</script>";
@@ -22,15 +19,9 @@
             break;
 
         case 'editar':
-            $nome = $_POST['nome_modelo'];
-            $cor = $_POST['cor_modelo'];
-            $ano = $_POST['ano_modelo'];
-            $tipo = $_POST['tipo_modelo'];
-            $marca = $_POST['marca_id_marca'];
-
-            $sql = "UPDATE modelo SET nome_modelo='{$nome}', cor_modelo='{$cor}', ano_modelo='{$ano}', tipo_modelo='{$tipo}', marca_id_marca={$marca} WHERE id_modelo =".$_REQUEST['id_modelo'];
-
-            $res = $conn->query($sql);
+            $stmt = $conn->prepare("UPDATE modelo SET nome_modelo=?, cor_modelo=?, ano_modelo=?, tipo_modelo=?, marca_id_marca=? WHERE id_modelo=?");
+            $stmt->bind_param('ssssii', $_POST['nome_modelo'], $_POST['cor_modelo'], $_POST['ano_modelo'], $_POST['tipo_modelo'], $_POST['marca_id_marca'], $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Editou com sucesso!');</script>";
@@ -42,9 +33,9 @@
             break;
 
         case 'excluir':
-            $sql = "DELETE FROM modelo WHERE id_modelo=".$_REQUEST['id_modelo'];
-
-            $res = $conn->query($sql);
+            $stmt = $conn->prepare("DELETE FROM modelo WHERE id_modelo=?");
+            $stmt->bind_param('i', $id);
+            $res = $stmt->execute();
 
             if ($res == true) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
