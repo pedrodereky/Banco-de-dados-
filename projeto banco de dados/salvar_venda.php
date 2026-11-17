@@ -35,9 +35,9 @@
         case 'excluir':
             $stmt = $conn->prepare("DELETE FROM venda WHERE id_venda=?");
             $stmt->bind_param('i', $id);
-            $res = $stmt->execute();
+            $erro = executar($stmt);
 
-            if ($res == true) {
+            if ($erro == 0) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
                 print "<script>location.href='?page=listar_venda';</script>";
             } else {

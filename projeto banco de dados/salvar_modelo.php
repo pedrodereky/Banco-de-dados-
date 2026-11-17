@@ -35,9 +35,12 @@
         case 'excluir':
             $stmt = $conn->prepare("DELETE FROM modelo WHERE id_modelo=?");
             $stmt->bind_param('i', $id);
-            $res = $stmt->execute();
+            $erro = executar($stmt);
 
-            if ($res == true) {
+            if ($erro == 1451) { // registro ainda referenciado por chave estrangeira
+                print "<script>alert('Não é possível excluir: há vendas deste modelo.');</script>";
+                print "<script>location.href='?page=listar_modelo';</script>";
+            } elseif ($erro == 0) {
                 print "<script>alert('Excluiu com sucesso!');</script>";
                 print "<script>location.href='?page=listar_modelo';</script>";
             } else {

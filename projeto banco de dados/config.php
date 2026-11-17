@@ -14,3 +14,15 @@
     function e($valor) {
         return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
     }
+
+    // Executa um prepared statement e devolve o código de erro do MySQL (0 = sucesso).
+    // No PHP 8.1+ o mysqli lança exceção em vez de retornar false; sem isso, uma
+    // exclusão barrada por chave estrangeira derrubava a página.
+    function executar($stmt) {
+        try {
+            $stmt->execute();
+            return 0;
+        } catch (mysqli_sql_exception $erro) {
+            return $erro->getCode();
+        }
+    }
