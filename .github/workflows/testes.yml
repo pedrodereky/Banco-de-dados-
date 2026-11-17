@@ -1,0 +1,41 @@
+name: Testes
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mysqli
+      - name: Sintaxe do PHP
+        run: find . -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Cria o banco a partir do script do projeto
+        run: mysql -h127.0.0.1 -uroot < "projeto banco de dados/banco-de-dados-2122m.sql"
+      - name: Sobe o site
+        working-directory: projeto banco de dados
+        env:
+          DB_HOST: 127.0.0.1
+        run: |
+          php -S 127.0.0.1:8000 > /tmp/php.log 2>&1 &
+          sleep 2
+      - name: Testes de ponta a ponta
+        run: tests/smoke.sh
+      - name: Log do servidor
+        if: always()
+        run: cat /tmp/php.log
