@@ -18,14 +18,14 @@
         print "</tr>";
         while($row = $res->fetch_object()) {
             print "<tr>";
-            print "<td>".$row->id_funcionario."</td>";
-            print "<td>".$row->nome_funcionario."</td>";
-            print "<td>".$row->email_funcionario."</td>";
-            print "<td>".$row->telefone_funcionario."</td>";
+            print "<td>" . e($row->id_funcionario) . "</td>";
+            print "<td>" . e($row->nome_funcionario) . "</td>";
+            print "<td>" . e($row->email_funcionario) . "</td>";
+            print "<td>" . e($row->telefone_funcionario) . "</td>";
             print "<td>
-                    <button class='btn btn-success' onclick=\"location.href='?page=editar_funcionario&id_funcionario={$row->id_funcionario}';\">Editar</button>
+                    <button class='btn btn-success' onclick=\"location.href='?page=editar_funcionario&id_funcionario=" . e($row->id_funcionario) . "';\">Editar</button>
 
-                    <button class='btn btn-danger' onclick=\"if (confirm('Tem certeza que deseja excluir?')){location.href='?page=salvar_funcionario&acao=excluir&id_funcionario={$row->id_funcionario}';} else{false;}\">Excluir</button>
+                    <button class='btn btn-danger' onclick=\"if (confirm('Tem certeza que deseja excluir?')){location.href='?page=salvar_funcionario&acao=excluir&id_funcionario=" . e($row->id_funcionario) . "';} else{false;}\">Excluir</button>
                    </td>";
             print "</tr>";
         }

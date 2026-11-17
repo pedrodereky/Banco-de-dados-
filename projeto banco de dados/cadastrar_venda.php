@@ -21,8 +21,8 @@
                     $qtd = $res->num_rows;
                     if($qtd > 0) {
                         while($row = $res->fetch_object()) {
-                            print "<option value='{$row->id_cliente}'>
-                                {$row->nome_cliente}</option>";
+                            print "<option value='" . e($row->id_cliente) . "'>
+                                " . e($row->nome_cliente) . "</option>";
                         }
                     } else {
                         print "<option>Não há marcas cadastradas</option>";
@@ -41,8 +41,8 @@
                     $qtd = $res->num_rows;
                     if($qtd > 0) {
                         while($row = $res->fetch_object()) {
-                            print "<option value='{$row->id_funcionario}'>
-                                {$row->nome_funcionario}</option>";
+                            print "<option value='" . e($row->id_funcionario) . "'>
+                                " . e($row->nome_funcionario) . "</option>";
                         }
                     } else {
                         print "<option>Não há marcas cadastradas</option>";
@@ -61,8 +61,8 @@
                     $qtd = $res->num_rows;
                     if($qtd > 0) {
                         while($row = $res->fetch_object()) {
-                            print "<option value='{$row->id_modelo}'>
-                                {$row->nome_modelo}</option>";
+                            print "<option value='" . e($row->id_modelo) . "'>
+                                " . e($row->nome_modelo) . "</option>";
                         }
                     } else {
                         print "<option>Não há marcas cadastradas</option>";

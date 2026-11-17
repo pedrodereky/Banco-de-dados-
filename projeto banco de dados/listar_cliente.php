@@ -21,17 +21,17 @@
         print "</tr>";
         while($row = $res->fetch_object()) {
             print "<tr>";
-            print "<td>{$row->id_cliente}</td>";
-            print "<td>{$row->nome_cliente}</td>";
-            print "<td>{$row->cpf_cliente}</td>";
-            print "<td>{$row->email_cliente}</td>";
-            print "<td>{$row->telefone_cliente}</td>";
-            print "<td>{$row->endereco_cliente}</td>";
-            print "<td>{$row->dt_nasc_cliente}</td>";
+            print "<td>" . e($row->id_cliente) . "</td>";
+            print "<td>" . e($row->nome_cliente) . "</td>";
+            print "<td>" . e($row->cpf_cliente) . "</td>";
+            print "<td>" . e($row->email_cliente) . "</td>";
+            print "<td>" . e($row->telefone_cliente) . "</td>";
+            print "<td>" . e($row->endereco_cliente) . "</td>";
+            print "<td>" . e($row->dt_nasc_cliente) . "</td>";
                 print "<td>
-                        <button class='btn btn-success' onclick=\"location.href='?page=editar_cliente&id_cliente={$row->id_cliente}';\">Editar</button>
+                        <button class='btn btn-success' onclick=\"location.href='?page=editar_cliente&id_cliente=" . e($row->id_cliente) . "';\">Editar</button>
 
-                        <button class='btn btn-danger' onclick=\"if(confirm('Tem certeza que deseja excluir?')){location.href='?page=salvar_cliente&acao=excluir&id_cliente={$row->id_cliente}';} else{false;}\">Excluir</button>
+                        <button class='btn btn-danger' onclick=\"if(confirm('Tem certeza que deseja excluir?')){location.href='?page=salvar_cliente&acao=excluir&id_cliente=" . e($row->id_cliente) . "';} else{false;}\">Excluir</button>
                     </td>";
                 print "</tr>";
         }
