@@ -1,10 +1,11 @@
 <H1>EDITAR FUNCIONÁRIO</H1>
 <?php
-    $sql = "SELECT * FROM funcionario WHERE id_funcionario=".$_REQUEST['id_funcionario'];
+    $stmt = $conn->prepare("SELECT * FROM funcionario WHERE id_funcionario=?");
+    $id = (int) ($_REQUEST['id_funcionario'] ?? 0);
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
 
-    $res = $conn->query($sql);
-
-    $row = $res->fetch_object();
+    $row = $stmt->get_result()->fetch_object();
 ?>
 
 <form action="?page=salvar_funcionario" method='POST'>
