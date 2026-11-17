@@ -8,17 +8,17 @@
     </div>
     <div class="mb-3">
         <label>CPF
-            <input type="number" name="cpf_cliente" class="form-control">
+            <input type="text" inputmode="numeric" pattern="[0-9]{11}" maxlength="11" title="11 dígitos, só números" name="cpf_cliente" class="form-control">
         </label>
     </div>
     <div class="mb-3">
         <label>E-mail
-            <input type="e-mail" name="email_cliente" class="form-control">
+            <input type="email" name="email_cliente" class="form-control">
         </label>
     </div>
     <div class="mb-3">
         <label>Telefone
-            <input type="number" name="telefone_cliente" class="form-control">
+            <input type="tel" maxlength="20" name="telefone_cliente" class="form-control">
         </label>
     </div>
     <div class="mb-3">

@@ -8,7 +8,7 @@
     </div>
     <div class="mb-3">
         <label>Valor
-            <input type="number" name="valor_venda" class="form-control">
+            <input type="number" step="0.01" min="0" name="valor_venda" class="form-control">
         </label>
     </div>
     <div class="mb-3">

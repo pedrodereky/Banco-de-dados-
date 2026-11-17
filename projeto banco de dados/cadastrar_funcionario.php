@@ -8,12 +8,12 @@
     </div>
     <div class="mb-3">
         <label for="">E-mail
-            <input type="text" name="email_funcionario" class="form-control">
+            <input type="email" name="email_funcionario" class="form-control">
         </label>
     </div>
     <div class="mb-3">
         <label for="">Telefone
-            <input type="text" name="telefone_funcionario" class="form-control">
+            <input type="tel" maxlength="20" name="telefone_funcionario" class="form-control">
         </label>
     </div>
     
